@@ -5,7 +5,6 @@ import streamlit as st
 import time
 
 from langchain.llms import OpenAI
-from streamlit_js_eval import streamlit_js_eval
 
 from langchain.chains import LLMChain
 from langchain.prompts import (PromptTemplate)
