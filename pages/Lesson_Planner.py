@@ -10,7 +10,7 @@ from langchain.chains import LLMChain
 from langchain.prompts import (PromptTemplate)
 from langchain.memory import (ConversationSummaryMemory)
 
-sys.path.append('../..')
+sys.path.append('../../..')
 
 from dotenv import load_dotenv, find_dotenv
 
