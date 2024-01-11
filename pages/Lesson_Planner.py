@@ -87,17 +87,18 @@ if input_text := st.chat_input("Type Here:"):
 # displaying the content if the user types any input
 if input_text:
     with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
         # loading previous chat into Summary memory
-        if st.session_state.messages:
-            for i in range(len(st.session_state.messages)):
-                if "content" in st.session_state.messages[i] and st.session_state.messages[i]["role"] == "user":
-                    question = st.session_state.messages[i]["content"]
-                if "content" in st.session_state.messages[i] and st.session_state.messages[i]["role"] == "assistant":
-                    answer = st.session_state.messages[i]["content"]
-                    memoryS.save_context({"input": question}, {"output": answer})
-        # running and printing the chain
-        script = chainS.run(input_text)
-        st.markdown(script, unsafe_allow_html=True)
+            if st.session_state.messages:
+                for i in range(len(st.session_state.messages)):
+                    if "content" in st.session_state.messages[i] and st.session_state.messages[i]["role"] == "user":
+                        question = st.session_state.messages[i]["content"]
+                    if "content" in st.session_state.messages[i] and st.session_state.messages[i]["role"] == "assistant":
+                        answer = st.session_state.messages[i]["content"]
+                        memoryS.save_context({"input": question}, {"output": answer})
+            # running and printing the chain
+            script = chainS.run(input_text)
+            st.markdown(script, unsafe_allow_html=True)
         # saving the chain history to the session_state
         st.session_state.messages.append({"role": "assistant", "content": script})
 
