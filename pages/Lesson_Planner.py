@@ -28,6 +28,7 @@ with st.expander('Instructions'):
     st.markdown(':red[2. in the left column, choose the lesson, assignment, project, or rubric]')
     st.markdown(':orange[3. in the left column, type in the specific topic you would like to be the focus of your lesson]')
     st.markdown(':green[4. in the chat box, specify the length of time and any other ideas or constraints for the project or lesson]')
+    st.markdown(':purple[5. use the "clear chat" button to clear the screen and AI memory.]')
 
 # options for temp variables in template, displayed in sidebar
 with st.sidebar:
@@ -37,7 +38,7 @@ with st.sidebar:
     )
     lessonType = st.selectbox(
         'Choose a lesson category:',
-        ('Project', 'Lesson', 'Lab', 'Assignment', 'Rubric', 'Worksheet', 'Practice')
+        ('Project', 'Lesson', 'Lab', 'Assignment', 'Assessment', 'Rubric', 'Worksheet', 'Practice')
     )
     topic = st.text_input("Type the specific topic: ")
     userName = st.text_input("Type your first name: ")
@@ -54,7 +55,7 @@ script_template = PromptTemplate(
     template='''
     {history}
     You are an experienced middle school {subject} teacher and coach.
-    You are planning a {type} that focuses on {topic}, and fits these constraints: {convo}.
+    You are creating a {type} that focuses on {topic}, and fits these constraints: {convo}.
     Respond with a {type} structured in a table.
     It is important that you explain your reasoning behind each step. 
     You are preparing this for another educator, named {name}.   
@@ -67,7 +68,7 @@ chainS = LLMChain(llm=model, prompt=script_template, verbose=True, output_key='s
 
 with st.sidebar:
     # reset button
-    if st.button("Clear Messages", type="primary"):
+    if st.button("Clear Chat", type="primary"):
         # streamlit_js_eval(js_expressions="parent.window.location.reload()")
         st.session_state.messages.clear()
         memoryS.clear()
