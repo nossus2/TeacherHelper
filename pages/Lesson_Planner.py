@@ -4,7 +4,7 @@ import sys
 import streamlit as st
 import time
 
-from langchain.llms import OpenAI
+from langchain_openai import OpenAI
 
 from langchain.chains import LLMChain
 from langchain.prompts import (PromptTemplate)
