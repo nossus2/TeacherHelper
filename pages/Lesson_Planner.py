@@ -28,7 +28,7 @@ with st.expander('Instructions'):
     st.markdown(':red[2. in the left column, choose the lesson, assignment, project, or rubric]')
     st.markdown(':orange[3. in the left column, type in the specific topic you would like to be the focus of your lesson]')
     st.markdown(':green[4. in the chat box, specify the length of time and any other ideas or constraints for the project or lesson]')
-    st.markdown(':purple[5. use the "clear chat" button to clear the screen and AI memory.]')
+    st.markdown(':purple[5. before a new request, use the "clear chat" button to clear the screen and AI memory.]')
 
 # options for temp variables in template, displayed in sidebar
 with st.sidebar:
@@ -43,7 +43,7 @@ with st.sidebar:
     topic = st.text_input("Type the specific topic: ")
     gradeLevel = st.selectbox(
         'Choose an approximate target grade level:',
-        ('Pre-K', 'Kindergarten', '1st Grade', '2nd Grade', '3rd Grade', '4th Grade', '5th Grade', '6th Grade', '7th Grade',
+        ('Pre-Kindergarten', 'Kindergarten', '1st Grade', '2nd Grade', '3rd Grade', '4th Grade', '5th Grade', '6th Grade', '7th Grade',
          '8th Grade', '9th Grade')
     )
 
@@ -59,7 +59,7 @@ script_template = PromptTemplate(
     template='''
     {history}
     You are an experienced {grade} {subject} teacher and coach.
-    You are creating a {type} that focuses on {topic}, and fits these constraints: {convo}.
+    You are creating a {type} that focuses on {topic} for {grade} students, which fits these constraints: {convo}.
     Respond with a {type} structured in a table.
     It is important that you explain your reasoning behind each step. 
     You are preparing this for another educator.   
