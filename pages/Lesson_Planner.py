@@ -41,7 +41,11 @@ with st.sidebar:
         ('Project', 'Lesson', 'Lab', 'Assignment', 'Assessment', 'Rubric', 'Worksheet', 'Practice')
     )
     topic = st.text_input("Type the specific topic: ")
-    userName = st.text_input("Type your first name: ")
+    gradeLevel = st.selectbox(
+        'Choose an approximate target grade level:',
+        ('Pre-K', 'Kindergarten', '1st Grade', '2nd Grade', '3rd Grade', '4th Grade', '5th Grade', '6th Grade', '7th Grade',
+         '8th Grade', '9th Grade')
+    )
 
 # initializes chat history
 if "messages" not in st.session_state:
@@ -50,15 +54,15 @@ if "messages" not in st.session_state:
 # template passes framework for the ai response
 script_template = PromptTemplate(
     input_variables=['convo'],
-    partial_variables={'topic': topic, 'name': userName, 'subject': option, 'type': lessonType,
+    partial_variables={'topic': topic, 'grade': gradeLevel, 'subject': option, 'type': lessonType,
                        },
     template='''
     {history}
-    You are an experienced middle school {subject} teacher and coach.
+    You are an experienced {grade} {subject} teacher and coach.
     You are creating a {type} that focuses on {topic}, and fits these constraints: {convo}.
     Respond with a {type} structured in a table.
     It is important that you explain your reasoning behind each step. 
-    You are preparing this for another educator, named {name}.   
+    You are preparing this for another educator.   
     .'''
 )
 
