@@ -59,7 +59,8 @@ script_template = PromptTemplate(
     template='''
     {history}
     You are an experienced {grade} {subject} teacher and coach.
-    You are creating a {type} that focuses on {topic} for {grade} students, which fits these constraints: {convo}.
+    You are creating a {type} that focuses on {topic} in {subject} for {grade} students.
+    The {type} should fit these constraints: {convo}.
     Respond with a {type} structured in a table.
     It is important that you explain your reasoning behind each step. 
     You are preparing this for another educator.   
