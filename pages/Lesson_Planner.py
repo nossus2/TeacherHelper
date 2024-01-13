@@ -103,7 +103,7 @@ if input_text:
                         answer = st.session_state.messages[i]["content"]
                         memoryS.save_context({"input": question}, {"output": answer})
             # running and printing the chain
-            script = chainS.run(input_text)
+            script = chainS.invoke(input_text)
             st.markdown(script, unsafe_allow_html=True)
         # saving the chain history to the session_state
         st.session_state.messages.append({"role": "assistant", "content": script})
