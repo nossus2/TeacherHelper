@@ -4,7 +4,7 @@ import sys
 import streamlit as st
 import time
 
-from langchain_openai import OpenAI
+from langchain_openai import ChatOpenAI
 
 from langchain.chains import LLMChain
 from langchain.prompts import (PromptTemplate)
@@ -17,6 +17,8 @@ from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv())  # read local .env file
 
 openai.api_key = os.environ['OPENAI_API_KEY']
+
+available_models = {"ChatGPT-3.5": "gpt-3.5-turbo", "ChatGPT-4": "gpt-4"}
 
 # wide format and displays title
 st.set_page_config(page_title="Lesson Planner", layout="wide")
@@ -47,6 +49,13 @@ with st.sidebar:
          '8th Grade', '9th Grade')
     )
 
+    with st.container(border=True):
+        # Keep a dictionary of whether models are selected or not
+        use_model = st.selectbox(':brain: Choose your model(s):',available_models.keys())
+        # Assign temperature for AI
+        use_model = available_models[use_model]
+        aiTemp = st.slider(':sparkles: Choose AI variance or creativity:', 0.0, 1.0, 0.0, 0.1)
+
 # initializes chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -67,7 +76,7 @@ script_template = PromptTemplate(
     .'''
 )
 
-model = OpenAI(temperature=0, max_tokens=1000)
+model = ChatOpenAI(temperature=aiTemp, max_tokens=500, model_name=use_model)
 memoryS = ConversationSummaryMemory(llm=model, memory_key='history', return_messages=True)
 chainS = LLMChain(llm=model, prompt=script_template, verbose=True, output_key='script', memory=memoryS)
 
@@ -104,8 +113,8 @@ if input_text:
                         memoryS.save_context({"input": question}, {"output": answer})
             # running and printing the chain
             script = chainS.invoke(input_text)
-            st.markdown(script, unsafe_allow_html=True)
+            st.markdown(script['script'], unsafe_allow_html=True)
         # saving the chain history to the session_state
-        st.session_state.messages.append({"role": "assistant", "content": script})
+        st.session_state.messages.append({"role": "assistant", "content": script['script']})
 
 
